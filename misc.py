@@ -1,7 +1,7 @@
 '''Some utility stuff!
 
 
-This file is part of glPlotLib <https://github.com/nalamat/glplotlib>
+This file is part of glplot <https://github.com/nalamat/glplot>
 Copyright (C) 2017-2021 Nima Alamatsaz <nima.alamatsaz@gmail.com>
 '''
 

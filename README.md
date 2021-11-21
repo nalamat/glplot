@@ -1,9 +1,9 @@
-# glPlotLib
+# GLPlot
 
-GPU-accelerated graphics and plotting using PyOpenGL.
+Real-time GPU-accelerated plotting library.
 
 Currently under development. For a demo, try:
 
-    $ python glPlotLib.py
+    $ python glplot.py
 
 ![Demo](media/screenshot-1.png?raw=true)

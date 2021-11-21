@@ -1,7 +1,7 @@
-'''GPU accelerated graphics and plotting using PyOpenGL.
+'''Real-time GPU-accelerated plotting with PyOpenGL.
 
 
-This file is part of the EARS project <https://github.com/nalamat/ears>
+This file is part of glplot <https://github.com/nalamat/glplot>
 Copyright (C) 2017-2021 Nima Alamatsaz <nima.alamatsaz@gmail.com>
 '''
 
@@ -3037,7 +3037,7 @@ class DemoWindow(QtWidgets.QWidget):
         mainLayout.addWidget(self.canvas)
 
         self.setLayout(mainLayout)
-        self.setWindowTitle('glPlotLib Demo')
+        self.setWindowTitle('GLPlot Demo')
         # self.setWindowIcon(QtGui.QIcon(config.APP_LOGO))
 
     def showEvent(self, event):
@@ -3076,7 +3076,7 @@ if __name__ == '__main__':
     setSurfaceFormat()
 
     app = QtWidgets.QApplication([])
-    app.setApplicationName = 'glPlotLib Demo'
+    app.setApplicationName = 'GLPlot Demo'
     # app.setWindowIcon(QtGui.QIcon(config.APP_LOGO))
 
     demo = DemoWindow()
