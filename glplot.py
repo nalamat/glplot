@@ -35,8 +35,9 @@ from   PyQt5       import QtCore, QtGui, QtWidgets
 from   ctypes      import sizeof, c_void_p, c_bool, c_uint, c_float, string_at
 from   OpenGL.GL   import *
 
-import misc
-import pypeline
+import pype
+
+import .misc
 
 
 log = logging.getLogger(__name__)
@@ -1158,7 +1159,7 @@ class Plot(Item):
         super().__setattr__(name, value)
 
 
-class AnalogPlot(Plot, pypeline.Sampled):
+class AnalogPlot(Plot, pype.Sampled):
     '''Multi-channel analog plot for Scope.'''
 
     _vertShader = '''
@@ -1580,7 +1581,7 @@ class AnalogPlot(Plot, pypeline.Sampled):
         super().paintGL()
 
 
-class EpochPlot(Plot, pypeline.Node):
+class EpochPlot(Plot, pype.Node):
     _vertShaderRect = '''
         in float aData;
 
@@ -2006,7 +2007,7 @@ class EpochPlot(Plot, pypeline.Node):
         super().paintGL()
 
 
-class SpikePlot(Plot, pypeline.Node):
+class SpikePlot(Plot, pype.Node):
     _vertShader = '''
         in float aData;
 
@@ -2203,7 +2204,7 @@ class SpikePlot(Plot, pypeline.Node):
         super().paintGL()
 
 
-class SpikeOverlay(Plot, pypeline.Node):
+class SpikeOverlay(Plot, pype.Node):
     _vertShader = '''
         in vec2 aVertex;
 
@@ -2496,7 +2497,7 @@ class Figure(Item):
             (posPxl < self.posPxl + self.sizePxl)).all()
 
 
-class SpikeFigure(Figure, pypeline.Node):
+class SpikeFigure(Figure, pype.Node):
     _vertShader = '''
         in float aData;
 
@@ -2728,7 +2729,7 @@ class SpikeFigure(Figure, pypeline.Node):
         super().paintGL()
 
 
-class Scope(Figure, pypeline.Sampled):
+class Scope(Figure, pype.Sampled):
     '''Time-based plotting figure with oscilloscope-style cycling fading effect.
     '''
 
@@ -3005,30 +3006,30 @@ class DemoWindow(QtWidgets.QWidget):
         # self.spikeFigure = SpikeFigure(self.canvas, pos=(.7,0), size=(.3,1),
         #    margin=(0,20,10,10))
 
-        self.generator  = pypeline.SpikeGenerator(fs=self.fs,
+        self.generator  = pype.SpikeGenerator(fs=self.fs,
             channels=self.channels)
-        self.filter     = pypeline.LFilter(fl=100, fh=6000)
-        self.grandAvg   = pypeline.GrandAverage()
+        self.filter     = pype.LFilter(fl=100, fh=6000)
+        self.grandAvg   = pype.GrandAverage()
         self.scaleStep  = 0
         self.scaleRatio = 1.2
-        self.scaler1    = pypeline.Func(lambda data:
+        self.scaler1    = pype.Func(lambda data:
             data * self.scaleRatio ** self.scaleStep)
-        self.scaler2    = pypeline.Func(lambda data:
+        self.scaler2    = pype.Func(lambda data:
             [[(ts, peak * self.scaleRatio ** self.scaleStep, spike)
                 for (ts, peak, spike) in channelData] for channelData in data])
 
-        self.generator >> pypeline.Thread() >> self.grandAvg >> self.filter >> (
+        self.generator >> pype.Thread() >> self.grandAvg >> self.filter >> (
             self.scope,
             self.scaler1 >> self.physiologyPlot,
-            pypeline.Thread() >> pypeline.SpikeDetector() >> (
+            pype.Thread() >> pype.SpikeDetector() >> (
                 self.scaler2 >> self.spikeOverlay,
-                pypeline.Split() >> self.spikePlots
+                pype.Split() >> self.spikePlots
                 # self.spikeFigure
             )
         )
 
         # self.fs = 10
-        # self.generator = pypeline.SineGenerator(fs=self.fs,
+        # self.generator = pype.SineGenerator(fs=self.fs,
         #     channels=self.channels, noisy=True)
         # self.generator >> self.scope >> self.scaler1 >> self.physiologyPlot
 
