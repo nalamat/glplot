@@ -37,7 +37,7 @@ from   OpenGL.GL   import *
 
 import pype
 
-import .misc
+import misc
 
 
 log = logging.getLogger(__name__)
@@ -594,7 +594,7 @@ class Text(Item):
         Note: This function does not force redrawing of the text on screen.
         '''
         ratio = getPixelRatio()
-        margin = (np.array(self.margin) * ratio).astype(np.int)
+        margin = (np.array(self.margin) * ratio).astype(int)
         font = QtGui.QFont('arial', int(self.fontSize * ratio),
             QtGui.QFont.Bold if self.bold else QtGui.QFont.Normal, self.italic)
 
@@ -856,7 +856,7 @@ class TextArray(Item):
 
         # draw text elements
         for i, text in enumerate(self.texts):
-            w, h = sizes[i].astype(np.int)
+            w, h = sizes[i].astype(int)
             image = QtGui.QImage(w, h, QtGui.QImage.Format_ARGB32)
             image.fill(QtGui.QColor(*np.array(self.bgColor)*255))
 
@@ -1865,7 +1865,7 @@ class EpochPlot(Plot, pype.Node):
             raise ValueError('`type` should be either "rect" or "marker"')
         if not hasattr(self.markerType, '__len__') or len(self.markerType) != 2:
             raise ValueError('`markerType` should be a list of size 2')
-        self._props['markerType'] = np.array(self.markerType, np.int)
+        self._props['markerType'] = np.array(self.markerType, int)
         if self.labelColor is None:
             self._props['labelColor'] = np.r_[self.fgColor[:-1],1]
 
@@ -2342,7 +2342,7 @@ class SpikeOverlay(Plot, pype.Node):
     def initializeGL(self):
         self._vertices = -np.ones((self._channels, self._spikeCount, 2),
             dtype=np.float32)    # init with -1
-        self._indices = np.zeros(self._channels, dtype=np.int)
+        self._indices = np.zeros(self._channels, dtype=int)
         self._newData = False
 
         self._prog = Program(vert=self._vertShader, frag=self._fragShader)
@@ -2645,7 +2645,7 @@ class SpikeFigure(Figure, pype.Node):
         super()._written(data, source)
 
     def initializeGL(self):
-        div = np.ceil(np.sqrt(self._channels)).astype(np.int)
+        div = np.ceil(np.sqrt(self._channels)).astype(int)
 
         self._grid.xTicks = np.linspace(1/div/2, 1-1/div/2, div)
         self._grid.yTicks = np.linspace(1/div/2, 1-1/div/2, div)
