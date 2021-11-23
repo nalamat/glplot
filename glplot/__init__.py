@@ -1,7 +1,7 @@
 '''Real-time GPU-accelerated plotting with PyOpenGL.
 
 
-This file is part of glplot <https://github.com/nalamat/glplot>
+This file is part of GLPlot <https://github.com/nalamat/glplot>
 Copyright (C) 2017-2021 Nima Alamatsaz <nima.alamatsaz@gmail.com>
 '''
 
@@ -37,7 +37,7 @@ from   OpenGL.GL   import *
 
 import pype
 
-import misc
+from . import misc
 
 
 log = logging.getLogger(__name__)
