@@ -3060,27 +3060,3 @@ class DemoWindow(QtWidgets.QWidget):
             self.scaleStep += 1
         elif event.key() == QtCore.Qt.Key_Down:
             self.scaleStep -= 1
-
-
-if __name__ == '__main__':
-    def masterExceptionHook(exctype, value, traceback):
-        if exctype in (SystemExit, KeyboardInterrupt):
-            log.info('Exit requested with "%s"' % exctype.__name__)
-        else:
-            log.exception('Uncaught exception occured',
-                exc_info=(exctype, value, traceback))
-        log.info('Exiting application')
-        sys.exit(1)
-    sys._excepthook = sys.excepthook
-    sys.excepthook  = masterExceptionHook
-
-    setSurfaceFormat()
-
-    app = QtWidgets.QApplication([])
-    app.setApplicationName = 'GLPlot Demo'
-    # app.setWindowIcon(QtGui.QIcon(config.APP_LOGO))
-
-    demo = DemoWindow()
-    demo.show()
-
-    app.exec_()
